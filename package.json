@@ -1,0 +1,13 @@
+
+{
+  "name": "tp-supabase-lucas-lugo",
+  "version": "1.0.0",
+  "description": "Trabajo práctico sobre el video de Supabase",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}

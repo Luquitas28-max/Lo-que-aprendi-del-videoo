@@ -1,0 +1,432 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lo que aprendí del video - Supabase Overview</title>
+  <style>
+    /* VARIABLES DE COLORES Y ESTILOS GLOBALES */
+    :root {
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-color: #3ecf8e; /* Verde Supabase */
+      --accent-hover: #2dd4bf;
+      --border-color: #334155;
+      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      padding-top: 70px;
+    }
+
+    /* MENÚ DE NAVEGACIÓN FIJO */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-color);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      display: block;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ENCABEZADO DE LA PÁGINA */
+    .hero {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    .student-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
+    }
+
+    .student-info span strong {
+      color: var(--text-main);
+    }
+
+    /* SECCIONES Y TARJETAS */
+    section {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      scroll-margin-top: 90px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* ESTILO PARA CUESTIONARIO Y TARJETAS PREGUNTA/RESPUESTA */
+    .qa-card {
+      background-color: rgba(15, 23, 42, 0.6);
+      border-left: 4px solid var(--accent-color);
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .qa-card h3 {
+      font-size: 1.05rem;
+      color: #38bdf8;
+      margin-bottom: 0.5rem;
+    }
+
+    .qa-card p {
+      margin-bottom: 0;
+      color: var(--text-main);
+    }
+
+    /* RECURSOS VISUALES E IMÁGENES */
+    .img-container {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .img-caption {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ENLACES Y FUENTES */
+    .source-link {
+      display: inline-block;
+      color: var(--accent-color);
+      text-decoration: none;
+      word-break: break-all;
+      transition: text-decoration 0.2s;
+    }
+
+    .source-link:hover {
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    /* DISEÑO ADAPTABLE A MÓVILES */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .nav-links {
+        gap: 0.8rem;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      body {
+        padding-top: 110px;
+      }
+      .hero h1 {
+        font-size: 1.7rem;
+      }
+      section {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MENÚ DE NAVEGACIÓN -->
+  <header>
+    <nav>
+      <a href="#" class="logo">Supabase Overview</a>
+      <ul class="nav-links">
+        <li><a href="#introduccion">Introducción</a></li>
+        <li><a href="#conceptos">Conceptos</a></li>
+        <li><a href="#cuestionario">Cuestionario</a></li>
+        <li><a href="#practica">Aplicación</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+        <li><a href="#fuentes">Fuentes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- ENCABEZADO PRINCIPAL -->
+    <div class="hero">
+      <h1>Lo que aprendí del video</h1>
+      <p>Análisis técnico y práctico sobre el ecosistema y funcionamiento de Supabase</p>
+      
+      <div class="student-info">
+        <span><strong>Alumno:</strong> Lucas Alfredo Lugo Irala</span>
+        <span><strong>Curso y Sección:</strong> 2.° Año - 3.° BTI</span>
+        <span><strong>Asignatura:</strong> Informática / Programación</span>
+      </div>
+    </div>
+
+    <!-- INTRODUCCIÓN -->
+    <section id="introduccion">
+      <h2>1. Introducción</h2>
+      <p>
+        El video analizado en esta actividad es un tutorial práctico presentado por el canal <strong>FaztCode</strong>, centrado en explicar las capacidades, arquitectura y funcionamiento de <strong>Supabase</strong>. Supabase se presenta como una potente plataforma alternativa de código abierto a Firebase (Backend as a Service), diseñada para agilizar el proceso de desarrollo de aplicaciones modernas al simplificar la administración de bases de datos relacionales, autenticación de usuarios, API REST y almacenamiento multimedia en la nube.
+      </p>
+    </section>
+
+    <!-- CONCEPTOS FUNDAMENTALES -->
+    <section id="conceptos">
+      <h2>2. Conceptos Fundamentales</h2>
+      <ul>
+        <li><strong>Backend as a Service (BaaS):</strong> Plataforma en la nube que proporciona servicios e infraestructura de servidor ya listos para usar (autenticación, base de datos, APIs).</li>
+        <li><strong>PostgreSQL:</strong> Sistema de gestión de bases de datos relacional open-source utilizado como núcleo dentro de Supabase para almacenar información estructurada.</li>
+        <li><strong>Row Level Security (RLS):</strong> Característica de seguridad que permite filtrar e imponer reglas de acceso a las filas de la base de datos según el rol o token del usuario autenticado.</li>
+        <li><strong>API REST Automática:</strong> Capacidad de Supabase de generar automáticamente un conjunto de endpoints RESTful a partir de las tablas creadas por el usuario.</li>
+        <li><strong>SDK / Cliente JavaScript:</strong> Librería de código proporcionada por Supabase para conectar y manipular servicios backend directamente desde el código frontend de la aplicación.</li>
+      </ul>
+    </section>
+
+    <!-- CUESTIONARIO RESUELTO (12 PREGUNTAS) -->
+    <section id="cuestionario">
+      <h2>3. Cuestionario Resuelto (12 Preguntas)</h2>
+
+      <div class="qa-card">
+        <h3>1. ¿Cuál es el tema principal del video? Explica de qué trata.</h3>
+        <p>El tema principal es el funcionamiento general y práctico de Supabase. El video enseña qué es este servicio en la nube, cómo funciona como backend, su base de datos relacional PostgreSQL, su sistema de autenticación de usuarios y almacenamiento de archivos, mostrando cómo conectar todo a un programa mediante una API key y un enlace o URL de conexión.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>2. ¿Qué problema o necesidad tecnológica se aborda?</h3>
+        <p>Aborda la complejidad y el tiempo que requiere construir un servidor backend desde cero. Permite solucionar problemas de gestión de permisos, administración de usuarios y seguridad, permitiendo dar accesos especiales a moderadores o administradores para modificar datos, mientras que los usuarios comunes interactúan solo con permisos limitados.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>3. ¿Cuáles son los cinco conceptos más importantes? Define cada uno.</h3>
+        <p>
+          <strong>1) BaaS:</strong> Plataforma que provee infraestructura de servidor lista en la nube.<br>
+          <strong>2) PostgreSQL:</strong> Motor de base de datos relacional potente de código abierto.<br>
+          <strong>3) Autenticación y RLS:</strong> Control de acceso y reglas de seguridad según el tipo de usuario.<br>
+          <strong>4) Auto-generated REST API:</strong> Creación automática de enlaces HTTPS para consultar y alterar datos.<br>
+          <strong>5) Storage:</strong> Almacenamiento seguro en contenedores para imágenes y archivos.
+        </p>
+      </div>
+
+      <div class="qa-card">
+        <h3>4. ¿Qué herramientas, programas o tecnologías se mencionan y para qué sirven?</h3>
+        <p>Se mencionan Supabase (plataforma BaaS), PostgreSQL (base de datos), Firebase (referencia comparativa), JavaScript/Node.js (lenguaje y entorno de desarrollo), HTML/CSS (interfaz frontend) y VS Code (editor de código para escribir el proyecto).</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>5. ¿Qué procedimientos o pasos se explican? Presentalos en orden.</h3>
+        <p>1) Crear un proyecto en el panel de Supabase. 2) Crear tablas y definir campos en el Table Editor. 3) Configurar políticas de seguridad (RLS). 4) Obtener la URL del proyecto y la API Key pública (anon key). 5) Inicializar la librería cliente de Supabase en JavaScript. 6) Realizar consultas e inserciones de datos desde el sitio web.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>6. ¿Qué ejemplos prácticos aparecen? Explica uno detalladamente.</h3>
+        <p>Aparece el ejemplo práctico de un listado de tareas (To-Do List). Detalladamente, se crea una tabla llamada 'tasks' con columnas ID, nombre y estado. Luego, mediante JavaScript se invoca <code>supabase.from('tasks').select('*')</code> para traer los datos desde la nube y renderizarlos dinámicamente en el documento HTML.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>7. ¿Qué conocimientos previos son necesarios para comprender lo explicado?</h3>
+        <p>Se requiere tener conocimientos básicos de HTML, CSS y sintaxis básica de JavaScript (como el uso de funciones asíncronas / async-await), además de nociones fundamentales de qué es una base de datos y cómo funcionan las llamadas HTTP.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>8. ¿Qué ventajas o beneficios ofrece la tecnología o procedimiento?</h3>
+        <p>Permite ahorrar semanas de trabajo backend, utiliza tecnología estándar de la industria (SQL/PostgreSQL), evita el bloqueo por proveedor (*vendor lock-in*) al ser de código abierto, y ofrece escalabilidad inmediata y panel visual intuitivo.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>9. ¿Qué dificultades, errores o precauciones deben considerarse?</h3>
+        <p>Hay que tener precaución de no exponer las claves privadas (*service_role keys*) en el frontend y configurar correctamente las políticas RLS; de lo contrario, cualquier persona podría consultar o borrar información de la base de datos.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>10. ¿Cómo aplicarías lo aprendido en un proyecto informático real?</h3>
+        <p>Lo aplicaría creando un sistema web de gestión de inventario para un laboratorio o negocio, utilizando Supabase para registrar los usuarios, guardar el catálogo de ítems en PostgreSQL y almacenar fotos del equipo en el Storage de Supabase.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>11. ¿Qué parte del video consideras más importante y por qué?</h3>
+        <p>La sección donde se explica la integración del SDK de Supabase con JavaScript mediante la URL y la API Key, porque es el punto clave donde el código frontend finalmente logra comunicarse de forma en vivo con la base de datos en la nube.</p>
+      </div>
+
+      <div class="qa-card">
+        <h3>12. ¿Qué conocimientos nuevos adquiriste y cómo los explicarías a otra persona?</h3>
+        <p>Aprendí cómo conectar una base de datos relacional completa a una web sin necesidad de escribir un servidor en PHP o Node.js desde cero. Le explicaría a otra persona que Supabase es como un "servidor ya armado" que te regala la base de datos y la puerta de entrada (API) lista para conectar a tu web con un par de líneas de código.</p>
+      </div>
+    </section>
+
+    <!-- APLICACIÓN PRÁCTICA -->
+    <section id="practica">
+      <h2>4. Aplicación Práctica</h2>
+      <p>
+        Para aplicar lo aprendido, se puede implementar un script rápido utilizando la librería oficial de Supabase mediante CDN en una aplicación web frontend:
+      </p>
+      <pre style="background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; color: #38bdf8; font-size: 0.9rem;">
+// Inicialización del cliente Supabase
+const SUPABASE_URL = 'https://tu-proyecto.supabase.co';
+const SUPABASE_KEY = 'tu-anon-public-key';
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Función para obtener productos de la base de datos
+async function obtenerDatos() {
+  const { data, error } = await _supabase
+    .from('productos')
+    .select('*');
+
+  if (error) console.error('Error al consultar:', error);
+  else console.log('Datos obtenidos de Supabase:', data);
+}
+      </pre>
+    </section>
+
+    <!-- RECURSOS VISUALES -->
+    <section id="recursos">
+      <h2>5. Recursos Visuales</h2>
+      <div class="img-container">
+        <svg width="100%" height="180" viewBox="0 0 600 180" style="background: #0f172a; border-radius: 8px;">
+          <rect x="20" y="50" width="140" height="80" rx="8" fill="#1e293b" stroke="#3ecf8e" stroke-width="2"/>
+          <text x="90" y="95" fill="#f8fafc" text-anchor="middle" font-size="14">Frontend (HTML/JS)</text>
+          
+          <path d="M 160 90 L 250 90" stroke="#38bdf8" stroke-width="2" />
+          <text x="205" y="80" fill="#94a3b8" text-anchor="middle" font-size="11">API REST / HTTPS</text>
+          
+          <rect x="250" y="50" width="140" height="80" rx="8" fill="#1e293b" stroke="#3ecf8e" stroke-width="2"/>
+          <text x="320" y="95" fill="#3ecf8e" text-anchor="middle" font-size="14">Supabase BaaS</text>
+          
+          <path d="M 390 90 L 480 90" stroke="#38bdf8" stroke-width="2" />
+          
+          <rect x="480" y="50" width="100" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+          <text x="530" y="95" fill="#f8fafc" text-anchor="middle" font-size="13">PostgreSQL</text>
+        </svg>
+        <p class="img-caption">Diagrama de arquitectura: Conexión entre la aplicación cliente, las APIs de Supabase y la Base de Datos PostgreSQL.</p>
+      </div>
+    </section>
+
+    <!-- CONCLUSIÓN PERSONAL -->
+    <section id="conclusion">
+      <h2>6. Conclusión Personal</h2>
+      <p>
+        El aprendizaje sobre Supabase me ha permitido comprender lo rápido que ha evolucionado el desarrollo web en la actualidad. Herramientas como esta eliminan barreras de entrada para desarrolladores y estudiantes del área técnica, haciendo posible montar proyectos funcionales, seguros y escalables en cuestión de minutos sin tener que preocuparse por la compleja configuración de infraestructura backend.
+      </p>
+    </section>
+
+    <!-- FUENTES Y REFERENCIAS -->
+    <section id="fuentes">
+      <h2>7. Fuentes y Referencias</h2>
+      <ul>
+        <li>
+          <strong>Video analizado:</strong> 
+          <a class="source-link" href="https://youtu.be/pi33WDrgfpI?si=cKvUr2oWYQAnuroo" target="_blank">
+            Supabase, Tutorial Práctico y Overview (REST API) - FaztCode (YouTube)
+          </a>
+        </li>
+        <li>
+          <strong>Documentación oficial:</strong> 
+          <a class="source-link" href="https://supabase.com/docs" target="_blank">
+            Supabase Official Documentation
+          </a>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 - Lucas Alfredo Lugo Irala | Trabajo Práctico de Informática BTI</p>
+  </footer>
+
+</body>
+</html> 
